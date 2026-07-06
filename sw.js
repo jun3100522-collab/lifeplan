@@ -6,7 +6,7 @@
    ============================================ */
 'use strict';
 
-const CACHE_NAME = 'lifeplan-cache-v1';
+const CACHE_NAME = 'lifeplan-cache-v2';
 
 const ASSETS = [
   './',

@@ -484,6 +484,17 @@ button.mini {
   /* 収支表: スクロールを解除して全体を縮小して印刷 */
   .table-scroll { overflow: visible; max-height: none; border: none; }
   .cf-table { font-size: 6.5pt; }
+
+  /* 年ヘッダー: 画面では青地に白文字だが、印刷では背景が消えるため黒文字にする */
+  .cf-table thead th {
+    background: #fff !important;
+    color: #000 !important;
+    font-weight: bold;
+    border: 1px solid #888;
+  }
+
+  /* ライフイベントのラベルも背景なしで読めるように */
+  .evt { background: none; border: 1px solid #888; color: #000; }
   .cf-table th, .cf-table td { padding: 1px 3px; position: static !important; }
   .cf-table input {
     border: none;
