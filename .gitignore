@@ -1,0 +1,5 @@
+# 公開しないファイル
+.claude/
+index - コピー.html
+*.bak
+Thumbs.db

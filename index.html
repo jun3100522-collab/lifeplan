@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ライフプランシート</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- PWA（スマホのホーム画面追加用） -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b5cab">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+
+  <!-- ヘッダー: プラン操作とファイル操作 -->
+  <header class="app-header">
+    <div class="header-row">
+      <h1>📋 ライフプランシート</h1>
+      <div class="file-bar">
+        <button id="btn-export-json" title="全データをJSONファイルとしてパソコンに保存します">💾 ファイルに保存</button>
+        <button id="btn-import-json" title="保存したJSONファイルを読み込みます">📂 ファイルを開く</button>
+        <button id="btn-export-excel" title="全プランをExcelファイルとして書き出します">📊 Excel書き出し</button>
+        <button id="btn-import-excel" title="このアプリで書き出したExcelファイルを読み込みます">📥 Excel読込</button>
+        <button id="btn-print" title="印刷またはPDF保存します">🖨️ 印刷/PDF</button>
+      </div>
+    </div>
+    <div class="header-row plan-bar">
+      <label for="plan-select">プラン:</label>
+      <select id="plan-select"></select>
+      <button id="btn-new-plan">＋ 新規</button>
+      <button id="btn-copy-plan">⧉ 複製</button>
+      <button id="btn-rename-plan">✎ 名前変更</button>
+      <button id="btn-delete-plan" class="danger">🗑 削除</button>
+    </div>
+  </header>
+
+  <!-- タブ切り替え -->
+  <nav class="tabs" role="tablist">
+    <button data-view="view-dashboard" class="active" role="tab">🏠 ダッシュボード</button>
+    <button data-view="view-settings" role="tab">👨‍👩‍👧‍👦 家族・設定</button>
+    <button data-view="view-table" role="tab">📝 収支表</button>
+    <button data-view="view-compare" role="tab">⚖️ プラン比較</button>
+  </nav>
+
+  <main>
+    <!-- 印刷時だけ表示されるヘッダー -->
+    <div id="print-header" class="print-header"></div>
+
+    <!-- ① ダッシュボード -->
+    <section id="view-dashboard" class="view">
+      <div id="summary-cards" class="cards">
+        <div class="card placeholder-note">サマリー（第4回で実装します）</div>
+      </div>
+      <div class="card chart-card">
+        <h2>貯蓄残高の推移（万円）</h2>
+        <div class="chart-wrap"><canvas id="chart-balance"></canvas></div>
+      </div>
+      <div class="card chart-card">
+        <h2>年間収支（万円）</h2>
+        <div class="chart-wrap"><canvas id="chart-cashflow"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ② 家族・設定 -->
+    <section id="view-settings" class="view" hidden>
+      <div class="card">
+        <h2>計画期間・家族・運用の設定</h2>
+        <div id="settings-area" class="placeholder-note">（第2回で実装します）</div>
+      </div>
+    </section>
+
+    <!-- ③ 収支表 -->
+    <section id="view-table" class="view" hidden>
+      <div class="card">
+        <h2>年次キャッシュフロー表（単位: 万円）</h2>
+        <div id="cashflow-table-area" class="placeholder-note">（第3回で実装します）</div>
+      </div>
+    </section>
+
+    <!-- ④ プラン比較 -->
+    <section id="view-compare" class="view" hidden>
+      <div class="card">
+        <h2>プラン比較（例: NISAあり ⇔ NISAなし）</h2>
+        <div id="compare-area" class="placeholder-note">（第6回で実装します）</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    データはこのパソコンのブラウザ内にのみ保存されます（外部送信は一切ありません）。
+    念のため「💾 ファイルに保存」で定期的にバックアップしてください。
+    <button id="btn-reset-defaults" class="mini danger">⟲ 初期データに戻す</button>
+  </footer>
+
+  <!-- ファイル読み込み用の隠し入力欄 -->
+  <input type="file" id="file-input-json" accept=".json" hidden>
+  <input type="file" id="file-input-excel" accept=".xlsx,.xls,.csv" hidden>
+
+  <!-- 外部ライブラリ（CDN） -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+
+  <!-- アプリ本体 -->
+  <script src="js/templates.js"></script>
+  <script src="js/model.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/table.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/excel.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

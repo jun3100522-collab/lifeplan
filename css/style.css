@@ -1,0 +1,499 @@
+/* ============================================
+   ライフプランシート デザイン
+   方針: 文字大きめ・高コントラスト・見やすさ優先
+   ============================================ */
+
+:root {
+  --bg: #eef2f7;          /* ページ背景 */
+  --card-bg: #ffffff;     /* カード背景 */
+  --text: #16202e;        /* 基本文字色（濃紺） */
+  --primary: #0b5cab;     /* メインの青 */
+  --primary-dark: #084a8a;
+  --accent: #e8f1fb;      /* 薄い青（選択状態など） */
+  --danger: #c0392b;      /* 赤字・削除 */
+  --ok: #1e7e34;          /* 黒字・OK */
+  --border: #c5cfdb;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 17px; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Meiryo", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", sans-serif;
+  line-height: 1.6;
+}
+
+h1 { font-size: 1.45rem; margin: 0; }
+h2 { font-size: 1.2rem; margin: 0 0 0.6em; color: var(--primary-dark); }
+
+/* ---------- ヘッダー ---------- */
+.app-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 16px;
+  box-shadow: var(--shadow);
+}
+
+.header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.plan-bar {
+  margin-top: 8px;
+  justify-content: flex-start;
+}
+
+.plan-bar label { font-weight: bold; }
+
+.plan-bar select {
+  font-size: 1rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  min-width: 220px;
+}
+
+.file-bar { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* ---------- ボタン共通 ---------- */
+button {
+  font-size: 0.95rem;
+  font-family: inherit;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:hover { background: var(--accent); }
+
+button.danger { color: var(--danger); border-color: var(--danger); }
+button.danger:hover { background: #fdecea; }
+
+/* ---------- タブ ---------- */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px 0;
+  background: var(--bg);
+  border-bottom: 3px solid var(--primary);
+  flex-wrap: wrap;
+}
+
+.tabs button {
+  font-size: 1.05rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  background: #dbe4ee;
+  color: var(--text);
+}
+
+.tabs button:hover { background: var(--accent); }
+
+.tabs button.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ---------- メイン ---------- */
+main { padding: 16px; max-width: 1400px; margin: 0 auto; }
+
+.view > * + * { margin-top: 16px; }
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  padding: 16px 20px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.placeholder-note {
+  color: #667;
+  background: #f4f6f9;
+  border: 2px dashed var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+}
+
+/* ---------- 家族・設定タブ ---------- */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.set-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 0;
+}
+
+.set-block legend {
+  font-weight: bold;
+  color: var(--primary-dark);
+  padding: 0 6px;
+}
+
+.set-wide { grid-column: 1 / -1; }
+
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+
+.set-row > label { min-width: 10em; font-weight: bold; }
+.set-row .check-label { min-width: 0; }
+
+.set-row input[type="number"], .set-row input[type="text"] {
+  font-size: 1rem;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 8em;
+  text-align: right;
+}
+
+.hint { color: #667; font-size: 0.88rem; margin: 6px 0 0; }
+
+/* 家族テーブル */
+.mem-table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.mem-table th, .mem-table td {
+  border: 1px solid var(--border);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.mem-table th { background: #dbe4ee; }
+
+.mem-table input[type="text"] {
+  font-size: 1rem;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 9em;
+}
+
+.mem-table input[type="number"] {
+  font-size: 1rem;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: right;
+}
+
+/* イベントのチップ */
+.evt-chip {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 2px 8px;
+  margin: 2px 4px 2px 0;
+  font-size: 0.9rem;
+}
+
+.chip-del {
+  border: none;
+  background: none;
+  color: var(--danger);
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 2px;
+  font-size: 0.9rem;
+}
+
+/* ---------- プラン比較 ---------- */
+.compare-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #f4f7fa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.compare-controls .check-label {
+  margin-right: 14px;
+  font-size: 1rem;
+}
+
+.cmp-h {
+  font-size: 1.05rem;
+  color: var(--primary-dark);
+  margin: 18px 0 8px;
+}
+
+.cmp-scroll { max-height: 50vh; }
+
+/* ---------- グラフ ---------- */
+.chart-wrap {
+  position: relative;
+  height: 340px;
+}
+
+/* ---------- サマリーカード ---------- */
+.summary-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: #556;
+  font-weight: bold;
+}
+
+.summary-card .big-number {
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1.3;
+}
+
+.summary-card .unit { font-size: 0.95rem; font-weight: normal; }
+
+.text-ok { color: var(--ok); }
+.text-danger { color: var(--danger); }
+
+.card-label { color: #556; font-size: 0.9rem; margin-top: 4px; }
+
+/* ---------- 収支表 ---------- */
+.table-scroll {
+  overflow: auto;
+  max-height: 72vh;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.cf-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.cf-table th,
+.cf-table td {
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid #e4e9f0;
+  padding: 4px 6px;
+  background: #fff;
+}
+
+/* 年ヘッダー（上に固定） */
+.cf-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--primary);
+  color: #fff;
+  z-index: 3;
+  text-align: center;
+  min-width: 4.8em;
+}
+
+/* 左2列（操作・項目名）を固定 */
+.cf-table .col-ops {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: 132px;
+  min-width: 132px;
+  text-align: center;
+}
+
+.cf-table .col-name {
+  position: sticky;
+  left: 132px;
+  z-index: 2;
+  min-width: 12em;
+  font-weight: bold;
+}
+
+.cf-table thead .col-ops,
+.cf-table thead .col-name { z-index: 5; }
+
+/* 数値セル */
+.cf-table .num { text-align: right; }
+
+.cf-table input {
+  width: 5.2em;
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-align: right;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.cf-table input:focus {
+  outline: 2px solid var(--primary);
+  background: #fffbe6;
+}
+
+/* 年齢行 */
+.cf-table .age-row td { background: #f4f7fa; color: #445; }
+
+.evt {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--primary-dark);
+  background: var(--accent);
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-top: 2px;
+  text-align: center;
+}
+
+/* セクション見出し行 */
+.cf-table .section-row td {
+  background: #dbe4ee;
+  font-weight: bold;
+  padding: 6px;
+}
+
+.section-inner {
+  position: sticky;
+  left: 8px;
+  display: inline-block;
+}
+
+/* 計算行（合計・残高） */
+.cf-table .calc-row td { background: #eef4fb; font-weight: bold; }
+.cf-table .calc-balance td { background: #e2eefb; }
+
+/* 小さい操作ボタン */
+button.mini {
+  padding: 2px 7px;
+  font-size: 0.8rem;
+  margin: 0 1px;
+  border-radius: 4px;
+}
+
+/* ---------- フッター ---------- */
+.app-footer {
+  text-align: center;
+  color: #556;
+  font-size: 0.9rem;
+  padding: 16px;
+}
+
+/* ---------- スマホ対応（画面幅700px以下） ---------- */
+@media (max-width: 700px) {
+  html { font-size: 15px; }
+
+  .app-header { padding: 8px 10px; }
+  h1 { font-size: 1.15rem; }
+
+  .file-bar { gap: 5px; }
+  .file-bar button, .plan-bar button { padding: 6px 8px; font-size: 0.85rem; }
+  .plan-bar select { min-width: 0; flex: 1; }
+
+  .tabs { padding: 8px 6px 0; gap: 2px; }
+  .tabs button { font-size: 0.9rem; padding: 8px 10px; }
+
+  main { padding: 10px; }
+  .card { padding: 12px 14px; }
+  .cards { gap: 10px; }
+
+  .chart-wrap { height: 260px; }
+
+  /* 設定画面: 1列に */
+  .settings-grid { grid-template-columns: 1fr; }
+  .set-row > label { min-width: 0; }
+
+  /* 収支表: 固定列を細くしてスマホでも見やすく */
+  .cf-table { font-size: 0.85rem; }
+  .cf-table .col-ops {
+    width: 76px;
+    min-width: 76px;
+    white-space: normal;   /* ボタンを2段に折り返す */
+  }
+  .cf-table .col-name {
+    left: 76px;
+    min-width: 7.5em;
+    white-space: normal;
+  }
+  .cf-table input { width: 4.6em; }
+  .table-scroll { max-height: 65vh; }
+
+  .mem-table input[type="text"] { width: 6em; }
+}
+
+/* ---------- 印刷用 ---------- */
+.print-header { display: none; }
+
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+
+  .app-header, .tabs, .app-footer, .col-ops, .compare-controls, button { display: none !important; }
+
+  .print-header {
+    display: block;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 4px;
+  }
+
+  body { background: #fff; }
+  main { padding: 0; max-width: none; }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #999;
+    page-break-inside: auto;   /* 大きなカードは途中で改ページを許可（先頭の空白ページ防止） */
+  }
+
+  /* グラフとサマリーカードだけは途中で切らない */
+  .chart-card, .summary-card { page-break-inside: avoid; }
+
+  h2, h3 { page-break-after: avoid; }
+
+  /* 収支表: スクロールを解除して全体を縮小して印刷 */
+  .table-scroll { overflow: visible; max-height: none; border: none; }
+  .cf-table { font-size: 6.5pt; }
+  .cf-table th, .cf-table td { padding: 1px 3px; position: static !important; }
+  .cf-table input {
+    border: none;
+    width: 4em;
+    font-size: 6.5pt;
+    padding: 0;
+    background: transparent;
+  }
+  .cf-table .col-name { min-width: 9em; }
+
+  .chart-wrap { height: 300px; }
+  .cmp-scroll { max-height: none; }
+}
