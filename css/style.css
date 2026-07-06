@@ -505,6 +505,13 @@ button.mini {
   }
   .cf-table .col-name { min-width: 9em; }
 
-  .chart-wrap { height: 300px; }
+  /* 比較表など: 行の途中で改ページせず、2ページ目以降にも見出し行を繰り返す */
+  .mem-table thead { display: table-header-group; }
+  .mem-table tr, .cf-table tr { page-break-inside: avoid; }
+
+  /* グラフは印刷用サイズで大きく（描き直しはJS側で実施） */
+  .chart-wrap { height: 360px; }
+  .chart-wrap canvas { width: 100% !important; height: 100% !important; }
+
   .cmp-scroll { max-height: none; }
 }

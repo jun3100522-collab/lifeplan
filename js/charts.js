@@ -240,6 +240,38 @@ function wireCompare(area) {
   });
 }
 
+/* ============================================
+   印刷対応: 印刷直前にグラフを印刷用の大きさで
+   描き直し、印刷後に元に戻す
+   （スマホ印刷でグラフが小さく/欠けるのを防ぐ）
+   ============================================ */
+
+function resizeChartsForPrint() {
+  Object.keys(CHARTS).forEach((k) => {
+    const ch = CHARTS[k];
+    if (ch && ch.canvas) ch.resize(980, 360);
+  });
+}
+
+function restoreChartsAfterPrint() {
+  Object.keys(CHARTS).forEach((k) => {
+    const ch = CHARTS[k];
+    if (ch && ch.canvas) ch.resize();
+  });
+}
+
+window.addEventListener('beforeprint', resizeChartsForPrint);
+window.addEventListener('afterprint', restoreChartsAfterPrint);
+/* 一部のスマホブラウザは beforeprint を出さないため、こちらでも検知する */
+if (window.matchMedia) {
+  try {
+    window.matchMedia('print').addEventListener('change', (e) => {
+      if (e.matches) resizeChartsForPrint();
+      else restoreChartsAfterPrint();
+    });
+  } catch (e) { /* 古いブラウザでは無視 */ }
+}
+
 /* 共通オプション: ゼロ線を赤で強調、ツールチップは「万円」表示 */
 function chartOptions() {
   return {
